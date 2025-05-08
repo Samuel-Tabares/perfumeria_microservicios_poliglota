@@ -1,0 +1,32 @@
+{
+  "name": "microservicio-productos-nodejs",
+  "version": "1.0.0",
+  "description": "Microservicio de Productos en Node.js",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "microservice"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "mongoose": "^8.0.2",
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

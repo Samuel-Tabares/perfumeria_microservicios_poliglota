@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    platform: linux/arm64
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=docker
+      - PORT=8000
+      - CLIENTES_SERVICE_URL=http://clientes-python:8001
+      - PROVEEDORES_SERVICE_URL=http://proveedores-java:8002
+      - PRODUCTOS_SERVICE_URL=http://productos-nodejs:8003
+    depends_on:
+      - clientes-python
+      - proveedores-java
+      - productos-nodejs
+    networks:
+      - perfumeria_net
+
+  clientes-python:
+    platform: linux/arm64
+    build:
+      context: ./microservicio-clientes-python
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DEBUG=True
+      - SERVICE_PORT=8001
+    networks:
+      - perfumeria_net
+
+  proveedores-java:
+    platform: linux/arm64
+    build:
+      context: ./microservicio-proveedores-java
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - perfumeria_net
+
+  productos-nodejs:
+    platform: linux/arm64
+    build:
+      context: ./microservicio-productos-nodejs
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - NODE_ENV=development
+      - PORT=8003
+    networks:
+      - perfumeria_net
+
+networks:
+  perfumeria_net:
+    driver: bridge

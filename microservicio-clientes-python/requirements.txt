@@ -1,0 +1,7 @@
+Django==5.2
+djangorestframework==3.16.0
+django-cors-headers==4.7.0
+python-dotenv==1.1.0
+requests==2.32.3
+psycopg2-binary==2.9.9  # Para PostgreSQL si decides cambiar
+drf-yasg==1.21.7        # Para documentación Swagger

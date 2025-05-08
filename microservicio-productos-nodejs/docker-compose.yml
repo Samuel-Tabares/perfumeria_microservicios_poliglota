@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  clientes-python:
+    build:
+      context: ./microservicio-clientes-python
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DEBUG=True
+      - SERVICE_PORT=8001
+    networks:
+      - perfumeria_net
+
+  proveedores-java:
+    build:
+      context: ./microservicio-proveedores-java
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - perfumeria_net
+
+  productos-nodejs:
+    build:
+      context: ./microservicio-productos-nodejs
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - NODE_ENV=development
+      - PORT=8003
+    networks:
+      - perfumeria_net
+
+  # Agregaremos el gateway más adelante
+  
+networks:
+  perfumeria_net:
+    driver: bridge
