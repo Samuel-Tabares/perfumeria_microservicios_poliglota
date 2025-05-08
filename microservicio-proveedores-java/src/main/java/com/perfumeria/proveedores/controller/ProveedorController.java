@@ -10,7 +10,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class ProveedorController {
     
-    @GetMapping("")  // Endpoint para la raíz, importante
+    @GetMapping("")
     public ResponseEntity<Map<String, Object>> listarProveedores() {
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Lista de proveedores funcionando");
@@ -23,12 +23,11 @@ public class ProveedorController {
         response.put("message", "Proveedor " + id + " encontrado");
         return ResponseEntity.ok(response);
     }
-    
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> crearProveedor(@RequestBody Map<String, Object> proveedor) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Proveedor creado correctamente");
-        response.put("proveedor", proveedor);
-        return ResponseEntity.ok(response);
+        @PostMapping("")  // Asegúrate que este método exista y esté bien configurado
+        public ResponseEntity<Map<String, Object>> crearProveedor(@RequestBody Map<String, Object> proveedor) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Proveedor creado correctamente");
+            response.put("proveedor", proveedor);
+            return ResponseEntity.ok(response);
+        }
     }
-}

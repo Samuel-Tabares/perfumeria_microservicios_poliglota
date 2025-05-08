@@ -67,7 +67,7 @@ app.use('/api/clientes', createProxyMiddleware({
   ...proxyOptions,
   target: CLIENTES_URL,
   pathRewrite: {
-    '^/api/clientes': '/api'
+    '^/api/clientes': '/api/clientes'  // Mantener la ruta completa
   }
 }));
 
