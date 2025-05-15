@@ -62,6 +62,15 @@ const proxyOptions = {
   logLevel: 'silent'
 };
 
+
+// Añadir esta redirección para la interfaz de clientes
+app.use('/cliente-interface', createProxyMiddleware({
+  ...proxyOptions,
+  target: CLIENTES_URL,
+  pathRewrite: {
+    '^/cliente-interface': '/interface'
+  }
+}));
 // Configuración de rutas de proxy para cada microservicio
 app.use('/api/clientes', createProxyMiddleware({
   ...proxyOptions,

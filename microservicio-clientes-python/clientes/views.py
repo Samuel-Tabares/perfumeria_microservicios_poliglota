@@ -1,14 +1,21 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
+from django.shortcuts import render, redirect
+from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from .models import Cliente, Compra
 from .serializers import ClienteSerializer, ClienteSimpleSerializer, CompraSerializer
-# Importa render
-from django.shortcuts import render
 
-# Añade esta función a tus vistas
+# Vista para la interfaz de usuario
 def cliente_interface(request):
+    """Vista para renderizar la interfaz de usuario de clientes"""
     return render(request, 'clientes/index.html')
+
+# Vista para redireccionar la raíz de la API a la interfaz
+@api_view(['GET'])
+def api_root_redirect(request):
+    return redirect('cliente-interface')
+
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
