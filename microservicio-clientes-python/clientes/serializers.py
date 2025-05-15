@@ -5,7 +5,6 @@ class CompraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Compra
         fields = ['id', 'cliente', 'fecha_compra', 'total', 'completada']
-        # Añadí 'cliente' a los campos
 
 class ClienteSerializer(serializers.ModelSerializer):
     compras = CompraSerializer(many=True, read_only=True)
@@ -16,7 +15,6 @@ class ClienteSerializer(serializers.ModelSerializer):
                  'fecha_registro', 'activo', 'compras']
         
 class ClienteSimpleSerializer(serializers.ModelSerializer):
-    """Serializer simplificado para listar clientes sin incluir compras"""
     class Meta:
         model = Cliente
         fields = ['id', 'nombre', 'apellido', 'email', 'activo']

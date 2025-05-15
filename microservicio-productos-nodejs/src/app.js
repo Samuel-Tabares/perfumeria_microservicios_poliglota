@@ -23,31 +23,10 @@ const categoriasRoutes = require('./routes/categorias.routes');
 const productosRoutes = require('./routes/productos.routes');
 const promocionesRoutes = require('./routes/promociones.routes');
 
-
 // Rutas
-app.use('/api/productos', require('./routes/productos.routes'));
-app.use('/api/categorias', require('./routes/categorias.routes'));
-app.use('/api/promociones', require('./routes/promociones.routes'));
-
-// Ruta de health check
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', service: 'productos-service' });
-});
-
-// Ruta raíz para referencia
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Microservicio de Productos funcionando',
-    endpoints: [
-      '/api/productos',
-      '/api/categorias',
-      '/api/promociones',
-      '/health'
-    ]
-  });
-});
-
-
+app.use('/api/productos', productosRoutes);
+app.use('/api/categorias', categoriasRoutes);
+app.use('/api/promociones', promocionesRoutes);
 
 // Ruta de health check
 app.get('/health', (req, res) => {

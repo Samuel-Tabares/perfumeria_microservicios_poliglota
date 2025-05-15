@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   api-gateway:
-    platform: linux/arm64
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
@@ -20,9 +19,9 @@ services:
       - productos-nodejs
     networks:
       - perfumeria_net
+    restart: always
 
   clientes-python:
-    platform: linux/arm64
     build:
       context: ./microservicio-clientes-python
       dockerfile: Dockerfile
@@ -33,9 +32,9 @@ services:
       - SERVICE_PORT=8001
     networks:
       - perfumeria_net
+    restart: always
 
   proveedores-java:
-    platform: linux/arm64
     build:
       context: ./microservicio-proveedores-java
       dockerfile: Dockerfile
@@ -45,9 +44,9 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     networks:
       - perfumeria_net
+    restart: always
 
   productos-nodejs:
-    platform: linux/arm64
     build:
       context: ./microservicio-productos-nodejs
       dockerfile: Dockerfile
@@ -58,6 +57,7 @@ services:
       - PORT=8003
     networks:
       - perfumeria_net
+    restart: always
 
 networks:
   perfumeria_net:

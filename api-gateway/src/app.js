@@ -67,7 +67,8 @@ app.use('/api/clientes', createProxyMiddleware({
   ...proxyOptions,
   target: CLIENTES_URL,
   pathRewrite: {
-    '^/api/clientes': '/api'
+    // Cambia esto para que apunte correctamente a la API de clientes
+    '^/api/clientes': '/api/clientes'  // Sin cambios en el path
   }
 }));
 
@@ -163,7 +164,7 @@ app.get('/', async (req, res) => {
 
 // Health check del gateway
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'UP', service: 'api-gateway' });
+  res.status(200).json({ status: 'ok', service: 'api-gateway' });
 });
 
 // Endpoint específico para depuración de rutas
@@ -182,7 +183,7 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Recurso no encontrado', path: req.originalUrl });
 });
 
-// Manejo global de errores - SÓLO UN MIDDLEWARE DE ERROR
+// Manejo global de errores
 app.use((err, req, res, next) => {
   console.error(`Error en el API Gateway: ${err.message}`);
   res.status(500).send(`

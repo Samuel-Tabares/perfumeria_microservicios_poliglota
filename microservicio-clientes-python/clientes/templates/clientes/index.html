@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Clientes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 2rem; }
+        .client-card { margin-bottom: 1rem; }
+        #clientForm { margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Gestión de Clientes</h1>
+        
+        <!-- Formulario para crear/editar clientes -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 id="formTitle">Crear Nuevo Cliente</h4>
+            </div>
+            <div class="card-body">
+                <form id="clientForm">
+                    <input type="hidden" id="clientId">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono">
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="direccion" rows="2"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" id="cancelBtn" class="btn btn-secondary" style="display:none">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Lista de clientes -->
+        <h2>Clientes</h2>
+        <div class="row" id="clientesList">
+            <!-- Aquí se cargarán los clientes dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminación -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea eliminar este cliente?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Variables globales
+        const API_URL = 'http://localhost:8000/api/clientes/';
+        let deleteClientId = null;
+        let editMode = false;
+        
+        // Elementos DOM
+        const clientForm = document.getElementById('clientForm');
+        const clientesList = document.getElementById('clientesList');
+        const formTitle = document.getElementById('formTitle');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        const confirmDeleteBtn = document.getElementById('confirmDelete');
+        
+        // Cargar clientes al iniciar
+        document.addEventListener('DOMContentLoaded', loadClientes);
+        
+        // Event listeners
+        clientForm.addEventListener('submit', saveCliente);
+        cancelBtn.addEventListener('click', resetForm);
+        confirmDeleteBtn.addEventListener('click', deleteCliente);
+        
+        // Cargar lista de clientes
+        function loadClientes() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    clientesList.innerHTML = '';
+                    
+                    // Si la respuesta incluye 'results', usamos eso (para APIs paginadas)
+                    const clientes = data.results || data;
+                    
+                    if (clientes && clientes.length > 0) {
+                        clientes.forEach(cliente => {
+                            clientesList.innerHTML += `
+                                <div class="col-md-4 client-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${cliente.nombre} ${cliente.apellido}</h5>
+                                            <p class="card-text">
+                                                <strong>Email:</strong> ${cliente.email}<br>
+                                                <strong>Teléfono:</strong> ${cliente.telefono || 'N/A'}<br>
+                                                <strong>Estado:</strong> ${cliente.activo ? 'Activo' : 'Inactivo'}
+                                            </p>
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-sm btn-info" onclick="viewCliente(${cliente.id})">Ver</button>
+                                                <button class="btn btn-sm btn-warning" onclick="editCliente(${cliente.id})">Editar</button>
+                                                <button class="btn btn-sm btn-danger" onclick="showDeleteModal(${cliente.id})">Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        clientesList.innerHTML = '<div class="col-12"><p>No hay clientes disponibles.</p></div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar clientes:', error);
+                    clientesList.innerHTML = '<div class="col-12"><p class="text-danger">Error al cargar clientes.</p></div>';
+                });
+        }
+        
+        // Ver detalles de un cliente
+        function viewCliente(id) {
+            fetch(`${API_URL}${id}/`)
+                .then(response => response.json())
+                .then(cliente => {
+                    alert(`
+                        Cliente: ${cliente.nombre} ${cliente.apellido}
+                        Email: ${cliente.email}
+                        Teléfono: ${cliente.telefono || 'N/A'}
+                        Dirección: ${cliente.direccion || 'N/A'}
+                        Fecha Registro: ${new Date(cliente.fecha_registro).toLocaleString()}
+                        Estado: ${cliente.activo ? 'Activo' : 'Inactivo'}
+                    `);
+                })
+                .catch(error => console.error('Error al cargar cliente:', error));
+        }
+        
+        // Preparar formulario para editar
+        function editCliente(id) {
+            editMode = true;
+            formTitle.textContent = 'Editar Cliente';
+            document.getElementById('clientId').value = id;
+            cancelBtn.style.display = 'block';
+            
+            fetch(`${API_URL}${id}/`)
+                .then(response => response.json())
+                .then(cliente => {
+                    document.getElementById('nombre').value = cliente.nombre;
+                    document.getElementById('apellido').value = cliente.apellido;
+                    document.getElementById('email').value = cliente.email;
+                    document.getElementById('telefono').value = cliente.telefono || '';
+                    document.getElementById('direccion').value = cliente.direccion || '';
+                })
+                .catch(error => console.error('Error al cargar cliente para editar:', error));
+        }
+        
+        // Mostrar modal de confirmación para eliminar
+        function showDeleteModal(id) {
+            deleteClientId = id;
+            deleteModal.show();
+        }
+        
+        // Eliminar cliente
+        function deleteCliente() {
+            if (!deleteClientId) return;
+            
+            fetch(`${API_URL}${deleteClientId}/`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        loadClientes();
+                        deleteModal.hide();
+                        alert('Cliente eliminado correctamente');
+                    } else {
+                        throw new Error('Error al eliminar');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al eliminar cliente:', error);
+                    alert('Error al eliminar cliente');
+                });
+        }
+        
+        // Guardar cliente (crear o actualizar)
+        function saveCliente(e) {
+            e.preventDefault();
+            
+            const clienteData = {
+                nombre: document.getElementById('nombre').value,
+                apellido: document.getElementById('apellido').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                direccion: document.getElementById('direccion').value
+            };
+            
+            const clientId = document.getElementById('clientId').value;
+            const url = editMode ? `${API_URL}${clientId}/` : API_URL;
+            const method = editMode ? 'PUT' : 'POST';
+            
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(clienteData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        resetForm();
+                        loadClientes();
+                        alert(editMode ? 'Cliente actualizado correctamente' : 'Cliente creado correctamente');
+                    } else {
+                        throw new Error('Error en la operación');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al guardar cliente:', error);
+                    alert('Error al guardar cliente');
+                });
+        }
+        
+        // Resetear formulario
+        function resetForm() {
+            clientForm.reset();
+            document.getElementById('clientId').value = '';
+            formTitle.textContent = 'Crear Nuevo Cliente';
+            cancelBtn.style.display = 'none';
+            editMode = false;
+        }
+    </script>
+</body>
+</html>
