@@ -48,10 +48,6 @@ app.get('/', (req, res) => {
 });
 
 
-// Configurar rutas
-app.use('/api/categorias', categoriasRoutes);
-app.use('/api/productos', productosRoutes);
-app.use('/api/promociones', promocionesRoutes);
 
 // Ruta de health check
 app.get('/health', (req, res) => {

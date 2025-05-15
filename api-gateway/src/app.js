@@ -67,7 +67,7 @@ app.use('/api/clientes', createProxyMiddleware({
   ...proxyOptions,
   target: CLIENTES_URL,
   pathRewrite: {
-    '^/api/clientes': '/api/clientes'  // Mantener la ruta completa
+    '^/api/clientes': '/api'
   }
 }));
 
@@ -75,7 +75,7 @@ app.use('/api/proveedores', createProxyMiddleware({
   ...proxyOptions,
   target: PROVEEDORES_URL,
   pathRewrite: {
-    '^/api/proveedores': '/api/proveedores'
+    '^/api/proveedores': '/api/proveedores'  // Mantener la ruta para Spring Boot
   }
 }));
 
@@ -83,7 +83,7 @@ app.use('/api/productos', createProxyMiddleware({
   ...proxyOptions,
   target: PRODUCTOS_URL,
   pathRewrite: {
-    '^/api/productos': '/api/productos'
+    '^/api/productos': '/api/productos'  // Mantener la ruta para Express
   }
 }));
 
