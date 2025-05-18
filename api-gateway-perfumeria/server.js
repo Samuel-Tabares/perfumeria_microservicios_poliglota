@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const routes = require('./routes');
+const { initializeServiceStates } = require('./microservices');
 require('dotenv').config();
 
 const app = express();
@@ -43,13 +44,21 @@ app.use('/node', createProxyMiddleware({
     pathRewrite: {'^/node': ''},
 }));
 
-// Start server
+// Start server and initialize service states
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-    console.log(`API Gateway running on port ${PORT}`);
-    console.log(`Dashboard: http://localhost:${PORT}`);
-    console.log('Available services:');
-    console.log(`- Java (Proveedores): http://localhost:${PORT}/java`);
-    console.log(`- Python (Clientes): http://localhost:${PORT}/python`);
-    console.log(`- Node.js (Productos): http://localhost:${PORT}/node`);
-});
+
+async function startServer() {
+    // Inicializar estados de los servicios
+    await initializeServiceStates();
+    
+    app.listen(PORT, () => {
+        console.log(`API Gateway running on port ${PORT}`);
+        console.log(`Dashboard: http://localhost:${PORT}`);
+        console.log('Available services:');
+        console.log(`- Java (Proveedores): http://localhost:${PORT}/java`);
+        console.log(`- Python (Clientes): http://localhost:${PORT}/python`);
+        console.log(`- Node.js (Productos): http://localhost:${PORT}/node`);
+    });
+}
+
+startServer();

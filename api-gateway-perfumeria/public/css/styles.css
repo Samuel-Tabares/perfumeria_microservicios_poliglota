@@ -46,3 +46,49 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.btn-lg {
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    min-width: 250px;
+}
+
+/* Animaciones para los botones */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Iconos en los botones */
+.btn i {
+    margin-right: 8px;
+}
+
+/* Mejorar las tarjetas */
+.card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Badges de estado mejorados */
+.status-badge {
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+/* Alerta de estado del sistema */
+.alert {
+    border-radius: 10px;
+    font-size: 1.1rem;
+}

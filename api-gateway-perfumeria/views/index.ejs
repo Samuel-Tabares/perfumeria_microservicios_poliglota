@@ -8,9 +8,15 @@
     
     <div class="row mb-4">
         <div class="col-12 text-center">
-            <button id="startAllBtn" class="btn btn-success m-2">Iniciar Todos</button>
-            <button id="stopAllBtn" class="btn btn-danger m-2">Detener Todos</button>
-            <button id="refreshBtn" class="btn btn-info m-2">Actualizar Estado</button>
+            <button id="startAllBtn" class="btn btn-success btn-lg m-3">
+                <i class="fas fa-play"></i> Iniciar Todos los Servicios
+            </button>
+            <button id="stopAllBtn" class="btn btn-danger btn-lg m-3">
+                <i class="fas fa-stop"></i> Detener Todos los Servicios
+            </button>
+            <button id="refreshBtn" class="btn btn-info btn-lg m-3">
+                <i class="fas fa-sync"></i> Actualizar Estado
+            </button>
         </div>
     </div>
 
@@ -20,27 +26,19 @@
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="m-0">Proveedores</h3>
-<span class="badge badge-pill status-badge <%- services.java.isRunning ? 'bg-success' : 'bg-danger' %>" data-service="java">
-    <%- services.java.isRunning ? 'Activo' : 'Inactivo' %>
-</span>
+                    <span class="badge badge-pill status-badge <%- services.java.isRunning ? 'bg-success' : 'bg-danger' %>" data-service="java">
+                        <%- services.java.isRunning ? 'Activo' : 'Inactivo' %>
+                    </span>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <p><strong>Tecnología:</strong> Java + Spring Boot</p>
-                    <p><strong>URL:</strong> <a href="<%- services.java.url %>" target="_blank"><%- services.java.url %></a></p>
+                    <p><strong>Puerto:</strong> 8002</p>
                     <p><strong>Descripción:</strong> Gestión de proveedores y suministros</p>
                     
                     <div class="mt-auto text-center">
-                        <button class="btn btn-primary btn-goto mb-2" data-service="java" <%- !services.java.isRunning && 'disabled' %>>
-                            Ir a la interfaz
+                        <button class="btn btn-primary btn-goto" data-service="java" <%- !services.java.isRunning && 'disabled' %>>
+                            <i class="fas fa-external-link-alt"></i> Ir a la interfaz
                         </button>
-                        <div>
-                            <button class="btn btn-sm btn-success btn-start" data-service="java" <%- services.java.isRunning && 'disabled' %>>
-                                Iniciar
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-stop" data-service="java" <%- !services.java.isRunning && 'disabled' %>>
-                                Detener
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -51,27 +49,19 @@
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="m-0">Clientes</h3>
-<span class="badge badge-pill status-badge <%- services.python.isRunning ? 'bg-success' : 'bg-danger' %>" data-service="python">
-    <%- services.python.isRunning ? 'Activo' : 'Inactivo' %>
-</span>
+                    <span class="badge badge-pill status-badge <%- services.python.isRunning ? 'bg-success' : 'bg-danger' %>" data-service="python">
+                        <%- services.python.isRunning ? 'Activo' : 'Inactivo' %>
+                    </span>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <p><strong>Tecnología:</strong> Python + FastAPI</p>
-                    <p><strong>URL:</strong> <a href="<%- services.python.url %>" target="_blank"><%- services.python.url %></a></p>
+                    <p><strong>Puerto:</strong> 8001</p>
                     <p><strong>Descripción:</strong> Gestión de clientes y compras</p>
                     
                     <div class="mt-auto text-center">
-                        <button class="btn btn-primary btn-goto mb-2" data-service="python" <%- !services.python.isRunning && 'disabled' %>>
-                            Ir a la interfaz
+                        <button class="btn btn-primary btn-goto" data-service="python" <%- !services.python.isRunning && 'disabled' %>>
+                            <i class="fas fa-external-link-alt"></i> Ir a la interfaz
                         </button>
-                        <div>
-                            <button class="btn btn-sm btn-success btn-start" data-service="python" <%- services.python.isRunning && 'disabled' %>>
-                                Iniciar
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-stop" data-service="python" <%- !services.python.isRunning && 'disabled' %>>
-                                Detener
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -82,27 +72,19 @@
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="m-0">Productos</h3>
-<span class="badge badge-pill status-badge <%- services.node.isRunning ? 'bg-success' : 'bg-danger' %>" data-service="node">
-    <%- services.node.isRunning ? 'Activo' : 'Inactivo' %>
-</span>
+                    <span class="badge badge-pill status-badge <%- services.node.isRunning ? 'bg-success' : 'bg-danger' %>" data-service="node">
+                        <%- services.node.isRunning ? 'Activo' : 'Inactivo' %>
+                    </span>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <p><strong>Tecnología:</strong> Node.js + Express</p>
-                    <p><strong>URL:</strong> <a href="<%- services.node.url %>" target="_blank"><%- services.node.url %></a></p>
+                    <p><strong>Puerto:</strong> 8003</p>
                     <p><strong>Descripción:</strong> Gestión de productos y categorías</p>
                     
                     <div class="mt-auto text-center">
-                        <button class="btn btn-primary btn-goto mb-2" data-service="node" <%- !services.node.isRunning && 'disabled' %>>
-                            Ir a la interfaz
+                        <button class="btn btn-primary btn-goto" data-service="node" <%- !services.node.isRunning && 'disabled' %>>
+                            <i class="fas fa-external-link-alt"></i> Ir a la interfaz
                         </button>
-                        <div>
-                            <button class="btn btn-sm btn-success btn-start" data-service="node" <%- services.node.isRunning && 'disabled' %>>
-                                Iniciar
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-stop" data-service="node" <%- !services.node.isRunning && 'disabled' %>>
-                                Detener
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -110,14 +92,14 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Mensajes del Sistema</h3>
-                </div>
-                <div class="card-body">
-                    <pre id="console-log" class="bg-dark text-light p-3 rounded" style="height: 200px; overflow-y: auto;">Sistema API Gateway iniciado...</pre>
-                </div>
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <strong>Estado del Sistema:</strong> 
+                <span id="systemStatus">
+                    <%- services.java.isRunning && services.python.isRunning && services.node.isRunning ? 
+                        'Todos los servicios están funcionando correctamente' : 
+                        'Algunos servicios están detenidos' %>
+                </span>
             </div>
         </div>
     </div>
