@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - JAVA_SERVICE_URL=http://microservicio-java:8002
+      - PYTHON_SERVICE_URL=http://microservicio-python:8001
+      - NODE_SERVICE_URL=http://microservicio-node:8003
+    depends_on:
+      - microservicio-java
+      - microservicio-python
+      - microservicio-node
+    networks:
+      - perfumeria-network
+
+  microservicio-java:
+    build: ./microservicio_proveedores_springboot
+    ports:
+      - "8002:8002"
+    networks:
+      - perfumeria-network
+
+  microservicio-python:
+    build: ./microservicio_clientes_fastapi
+    ports:
+      - "8001:8001"
+    networks:
+      - perfumeria-network
+
+  microservicio-node:
+    build: ./microservicio_productos_express
+    ports:
+      - "8003:8003"
+    networks:
+      - perfumeria-network
+
+networks:
+  perfumeria-network:
+    driver: bridge
