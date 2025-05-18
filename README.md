@@ -413,17 +413,6 @@ docker-compose logs -f
 # Detener todos los servicios
 docker-compose down
 ```
-
-### Despliegue en producción
-
-Para produción, considera:
-
-1. **Base de datos**: Migrar de SQLite/H2 a PostgreSQL o MySQL
-2. **Contenedorización**: Usar Docker para cada microservicio
-3. **Load Balancer**: Nginx o similar para el API Gateway
-4. **Monitorización**: Implementar logging centralizado
-5. **Seguridad**: Añadir autenticación y HTTPS
-
 ## 🔍 Solución de problemas
 
 ### Problemas comunes
@@ -461,36 +450,12 @@ rm -rf node_modules
 npm install
 ```
 
-### Logs y depuración
-
-Cada microservicio genera logs que puedes consultar:
-
-- **API Gateway**: Consola donde se ejecuta `npm start`
-- **Python**: Logs de uvicorn y FastAPI
-- **Java**: Logs de Spring Boot en consola
-- **Node.js**: Logs de Express en consola
-
 ## 📚 Documentación adicional
 
 - [Documentación del API Gateway](./api-gateway-perfumeria/README.md)
 - [Documentación de Clientes](./microservicio_clientes_fastapi/README.md)
 - [Documentación de Proveedores](./microservicio_proveedores_springboot/README.md)
 - [Documentación de Productos](./microservicio_productos_express/README.md)
-
-## 🤝 Contribución
-
-1. Fork del repositorio
-2. Crear rama para nueva funcionalidad (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit de cambios (`git commit -am 'Añade nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Crear Pull Request
-
-### Estándares de código
-
-- **Python**: Seguir PEP 8
-- **Java**: Seguir Google Java Style Guide
-- **JavaScript**: Seguir StandardJS
-- **Commits**: Usar Conventional Commits
 
 ## 📄 Licencia
 
