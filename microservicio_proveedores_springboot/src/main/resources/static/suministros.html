@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Suministros</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestión de Suministros</h1>
+            <nav>
+                <a href="index.html">Inicio</a> |
+                <a href="proveedores.html">Proveedores</a> |
+                <a href="suministros.html" class="active">Suministros</a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="actions">
+                <button id="btnNuevoSuministro" class="button">Nuevo Suministro</button>
+            </div>
+            
+            <div id="formContainer" class="form-container" style="display: none;">
+                <h2 id="formTitle">Nuevo Suministro</h2>
+                <form id="suministroForm">
+                    <input type="hidden" id="id">
+                    
+                    <div class="form-group">
+                        <label for="proveedorId">Proveedor:</label>
+                        <select id="proveedorId" required>
+                            <option value="">Seleccione un proveedor</option>
+                            <!-- Las opciones se cargarán dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productoNombre">Nombre del Producto:</label>
+                        <input type="text" id="productoNombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productoCodigo">Código del Producto:</label>
+                        <input type="text" id="productoCodigo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="precioUnitario">Precio Unitario:</label>
+                        <input type="number" id="precioUnitario" step="0.01" min="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tiempoEntregaDias">Tiempo de Entrega (días):</label>
+                        <input type="number" id="tiempoEntregaDias" min="1" value="7" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="btnCancelar" class="button secondary">Cancelar</button>
+                        <button type="submit" class="button">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="tablaContainer" class="table-container">
+                <table id="tablaSuministros">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Proveedor</th>
+                            <th>Producto</th>
+                            <th>Código</th>
+                            <th>Precio</th>
+                            <th>Entrega</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los datos se cargarán dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="mensaje" class="mensaje"></div>
+        </main>
+        
+        <footer>
+            <p>© 2025 Sistema de Gestión de Perfumería</p>
+        </footer>
+    </div>
+    
+    <script src="js/suministros.js"></script>
+</body>
+</html>

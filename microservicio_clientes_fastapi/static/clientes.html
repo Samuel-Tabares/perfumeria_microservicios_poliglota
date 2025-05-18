@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestión de Clientes</h1>
+            <nav>
+                <a href="/static/index.html">Inicio</a> |
+                <a href="/static/clientes.html" class="active">Clientes</a> |
+                <a href="/static/compras.html">Compras</a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="actions">
+                <button id="btnNuevoCliente" class="button">Nuevo Cliente</button>
+            </div>
+            
+            <div id="formContainer" class="form-container" style="display: none;">
+                <h2 id="formTitle">Nuevo Cliente</h2>
+                <form id="clienteForm">
+                    <input type="hidden" id="id">
+                    
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="text" id="telefono">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="direccion">Dirección:</label>
+                        <textarea id="direccion"></textarea>
+                    </div>
+                    
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="activo" checked>
+                        <label for="activo">Cliente Activo</label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="btnCancelar" class="button secondary">Cancelar</button>
+                        <button type="submit" class="button">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="tablaContainer" class="table-container">
+                <table id="tablaClientes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los datos se cargarán dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="mensaje" class="mensaje"></div>
+        </main>
+        
+        <footer>
+            <p>© 2025 Sistema de Gestión de Clientes</p>
+        </footer>
+    </div>
+    
+    <script src="/static/js/clientes.js"></script>
+</body>
+</html>

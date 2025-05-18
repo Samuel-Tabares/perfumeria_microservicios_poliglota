@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - Perfumería</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Perfumería - Microservicio de Productos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="btn-mostrar-productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="btn-mostrar-categorias">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="btn-mostrar-promociones">Promociones</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 id="seccion-titulo">Productos</h2>
+                    <button class="btn btn-success" id="btn-nuevo-item">Nuevo Producto</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje de estado -->
+        <div class="alert alert-success d-none" id="mensaje-estado">
+            Operación realizada con éxito
+        </div>
+
+        <!-- Sección Productos -->
+        <div id="seccion-productos">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="buscar-producto" placeholder="Buscar producto...">
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary" id="btn-buscar">Buscar</button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-secondary" id="btn-mostrar-en-stock">En Stock</button>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-3">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Código</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Categoría</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-productos">
+                        <!-- Los productos se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección Categorías -->
+        <div id="seccion-categorias" class="d-none">
+            <div class="table-responsive mt-3">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-categorias">
+                        <!-- Las categorías se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección Promociones -->
+        <div id="seccion-promociones" class="d-none">
+            <div class="table-responsive mt-3">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Producto</th>
+                            <th>Descuento</th>
+                            <th>Vigencia</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-promociones">
+                        <!-- Las promociones se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Producto -->
+    <div class="modal fade" id="modal-producto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-producto-titulo">Nuevo Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-producto">
+                        <input type="hidden" id="producto-id">
+                        <div class="mb-3">
+                            <label for="producto-nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="producto-nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="producto-codigo" class="form-label">Código</label>
+                            <input type="text" class="form-control" id="producto-codigo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="producto-precio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="producto-precio" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="producto-stock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="producto-stock" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="producto-descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="producto-descripcion" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="producto-categoria-id" class="form-label">Categoría</label>
+                            <select class="form-select" id="producto-categoria-id" required>
+                                <!-- Las categorías se cargarán aquí dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="producto-activo" checked>
+                            <label class="form-check-label" for="producto-activo">
+                                Activo
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-guardar-producto">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Categoría -->
+    <div class="modal fade" id="modal-categoria" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-categoria-titulo">Nueva Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-categoria">
+                        <input type="hidden" id="categoria-id">
+                        <div class="mb-3">
+                            <label for="categoria-nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="categoria-nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria-descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="categoria-descripcion" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-guardar-categoria">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Promoción -->
+    <div class="modal fade" id="modal-promocion" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-promocion-titulo">Nueva Promoción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-promocion">
+                        <input type="hidden" id="promocion-id">
+                        <div class="mb-3">
+                            <label for="promocion-nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="promocion-nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="promocion-descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="promocion-descripcion" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="promocion-producto-id" class="form-label">Producto</label>
+                            <select class="form-select" id="promocion-producto-id" required>
+                                <!-- Los productos se cargarán aquí dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="promocion-descuento" class="form-label">Descuento (%)</label>
+                            <input type="number" class="form-control" id="promocion-descuento" min="0" max="100" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="promocion-fecha-inicio" class="form-label">Fecha de inicio</label>
+                            <input type="date" class="form-control" id="promocion-fecha-inicio" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="promocion-fecha-fin" class="form-label">Fecha de fin</label>
+                            <input type="date" class="form-control" id="promocion-fecha-fin" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="promocion-activa" checked>
+                            <label class="form-check-label" for="promocion-activa">
+                                Activa
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-guardar-promocion">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="modal fade" id="modal-confirmar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de que desea eliminar este elemento? Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

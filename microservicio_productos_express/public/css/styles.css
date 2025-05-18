@@ -1,0 +1,47 @@
+/* Estilos personalizados */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.btn-action {
+    margin-right: 5px;
+}
+
+/* Estilo para mostrar puntero de mano en botones y links */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Animación para mensajes de estado */
+.fade-in-out {
+    animation: fadeInOut 4s;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.action-buttons .btn {
+    margin-right: 5px;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Proveedores</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestión de Proveedores</h1>
+            <nav>
+                <a href="index.html">Inicio</a> |
+                <a href="proveedores.html" class="active">Proveedores</a> |
+                <a href="suministros.html">Suministros</a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="actions">
+                <button id="btnNuevoProveedor" class="button">Nuevo Proveedor</button>
+            </div>
+            
+            <div id="formContainer" class="form-container" style="display: none;">
+                <h2 id="formTitle">Nuevo Proveedor</h2>
+                <form id="proveedorForm">
+                    <input type="hidden" id="id">
+                    
+                    <div class="form-group">
+                        <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                        <input type="text" id="nombreEmpresa" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactoNombre">Nombre del Contacto:</label>
+                        <input type="text" id="contactoNombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactoEmail">Email del Contacto:</label>
+                        <input type="email" id="contactoEmail" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="text" id="telefono" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="direccion">Dirección:</label>
+                        <textarea id="direccion" required></textarea>
+                    </div>
+                    
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="activo" checked>
+                        <label for="activo">Activo</label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="btnCancelar" class="button secondary">Cancelar</button>
+                        <button type="submit" class="button">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="tablaContainer" class="table-container">
+                <table id="tablaProveedores">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Empresa</th>
+                            <th>Contacto</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los datos se cargarán dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="mensaje" class="mensaje"></div>
+        </main>
+        
+        <footer>
+            <p>© 2025 Sistema de Gestión de Perfumería</p>
+        </footer>
+    </div>
+    
+    <script src="js/proveedores.js"></script>
+</body>
+</html>
