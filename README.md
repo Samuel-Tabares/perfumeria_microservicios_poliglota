@@ -82,17 +82,30 @@ mvn --version
 
 ## ⚡ Inicio rápido
 
-### Opción 1: Instalación automática
+### Opción 1: Instalación automática (Recomendada)
 
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/Samuel-Tabares/sistema-perfumeria.git
 cd sistema-perfumeria
 
-# 2. Dar permisos de ejecución y ejecutar
+# 2. Ejecutar el script de inicio
 chmod +x start.sh
 ./start.sh
 ```
+
+**¡Eso es todo!** 🎉 El script iniciará automáticamente:
+- Todos los microservicios (puertos 8001, 8002, 8003)
+- El API Gateway (puerto 8000)
+- Todos aparecerán como **ACTIVOS** en el dashboard
+
+### Acceso inmediato
+
+Una vez ejecutado el script, accede directamente a:
+- **Panel Principal**: [http://localhost:8000](http://localhost:8000) - Control de todo el sistema
+- **Clientes**: [http://localhost:8001](http://localhost:8001) - Gestión de clientes
+- **Proveedores**: [http://localhost:8002](http://localhost:8002) - Gestión de proveedores  
+- **Productos**: [http://localhost:8003](http://localhost:8003) - Gestión de productos
 
 ### Opción 2: Instalación manual
 
@@ -123,30 +136,72 @@ npm install
 npm start &
 cd ..
 
-# API Gateway
+# API Gateway (se iniciará último para detectar los servicios activos)
 cd api-gateway-perfumeria
 npm install
 npm start &
 cd ..
 ```
 
-### Opción 3: Docker Compose
+## 🚀 Inicio automático con un comando
 
 ```bash
-# Iniciar todo el sistema con Docker
-docker-compose up --build
+# Solo necesitas ejecutar:
+./start.sh
+
+# Y obtendrás:
+✅ Todos los microservicios iniciados automáticamente
+✅ API Gateway funcionando y detectando los servicios
+✅ Dashboard mostrando todos los servicios como ACTIVOS
+✅ Acceso inmediato a todas las interfaces
 ```
 
-## 🖥️ Acceso al sistema
+## 🛑 Detener el sistema
 
-Una vez iniciado, el sistema estará disponible en:
+### Opción 1: Desde el Dashboard (Recomendada)
+1. Ve a [http://localhost:8000](http://localhost:8000)
+2. Haz clic en **"Detener Todos los Servicios"**
+3. Confirma la acción
+4. El sistema se cerrará completamente
 
-| Servicio | URL | Descripción |
-|----------|-----|-------------|
-| **Panel Principal** | [http://localhost:8000](http://localhost:8000) | API Gateway - Control centralizado |
-| **Gestión de Clientes** | [http://localhost:8001](http://localhost:8001) | Interfaz para gestionar clientes y compras |
-| **Gestión de Proveedores** | [http://localhost:8002](http://localhost:8002) | Interfaz para gestionar proveedores y suministros |
-| **Gestión de Productos** | [http://localhost:8003](http://localhost:8003) | Interfaz para gestionar productos y categorías |
+### Opción 2: Desde Terminal
+Presiona `Ctrl+C` en la terminal donde ejecutaste `./start.sh`
+
+### Opción 3: Script Manual
+```bash
+# Ejecutar script de detención
+./stop.sh
+```
+
+## 🖥️ Uso del sistema
+
+### 🎛️ Panel de Control (API Gateway)
+
+El **Panel Principal** en [http://localhost:8000](http://localhost:8000) ofrece:
+
+#### Controles Globales
+- **Iniciar Todos**: Inicia automáticamente todos los microservicios
+- **Detener Todos**: Cierra completamente el sistema (equivale a Ctrl+C)
+- **Actualizar Estado**: Verifica el estado actual de todos los servicios
+
+#### Información de Servicios
+Cada tarjeta de microservicio muestra:
+- **Estado**: Activo (verde) o Inactivo (rojo)
+- **Tecnología utilizada**: Java, Python o Node.js
+- **Puerto de ejecución**: 8001, 8002 o 8003
+- **Botón "Ir a la interfaz"**: Acceso directo al microservicio (solo si está activo)
+
+#### Características Especiales
+- **Detección automática**: El dashboard detecta servicios que ya están en ejecución
+- **Actualización en tiempo real**: El estado se actualiza automáticamente cada 30 segundos
+- **Estado del sistema**: Indicador que muestra si todos los servicios están funcionando
+
+### 🚀 Gestión de Servicios
+
+1. **Inicio automático**: Al ejecutar `./start.sh`, todos los servicios se inician y aparecen activos
+2. **Control centralizado**: Usa el panel para iniciar o detener todos los servicios
+3. **Acceso directo**: Haz clic en "Ir a la interfaz" para acceder a cada microservicio
+4. **Apagado completo**: El botón "Detener Todos" cierra todo el sistema de forma segura
 
 ### APIs y documentación
 
@@ -159,11 +214,12 @@ Una vez iniciado, el sistema estará disponible en:
 ## 🎯 Funcionalidades
 
 ### 🎛️ API Gateway (Puerto 8000)
-- Panel de control centralizado
-- Inicio/parada individual de microservicios
-- Monitorización del estado de cada servicio
-- Navegación directa a cada interfaz
-- Logs del sistema en tiempo real
+- Panel de control centralizado y simplificado
+- Inicio/parada global de todos los microservicios con un solo clic
+- Detección automática de servicios ya en ejecución
+- Monitorización del estado de cada servicio en tiempo real
+- Navegación directa a cada interfaz de microservicio
+- Sistema de apagado completo (equivalente a Ctrl+C)
 
 ### 👥 Microservicio de Clientes (Puerto 8001)
 - ✅ Registro y gestión de clientes
@@ -221,6 +277,41 @@ sistema-perfumeria/
 ```
 
 ## 🔧 Configuración avanzada
+
+### Orden de inicio recomendado
+
+Para el funcionamiento óptimo del sistema:
+
+1. **Primero**: Microservicios (en cualquier orden)
+   - Python (puerto 8001)
+   - Java (puerto 8002)  
+   - Node.js (puerto 8003)
+
+2. **Después**: API Gateway (puerto 8000)
+   - Detectará automáticamente los servicios ya en ejecución
+   - Los mostrará como activos en el dashboard
+
+### Detección automática de servicios
+
+El API Gateway verifica automáticamente:
+- Qué puertos están en uso (8001, 8002, 8003)
+- Si hay servicios ejecutándose en esos puertos
+- Actualiza el estado de cada servicio en el dashboard
+
+### Scripts de automatización
+
+#### start.sh
+- Instala dependencias automáticamente
+- Inicia todos los servicios en el orden correcto
+- Verifica que cada servicio esté listo antes de continuar
+- Muestra estado detallado de cada paso
+
+#### Detener el sistema
+Hay varias formas de detener el sistema:
+
+1. **Desde el dashboard**: Botón "Detener Todos" (recomendado)
+2. **Desde terminal**: Ctrl+C en la terminal donde ejecutaste `./start.sh`
+3. **Script manual**: `./stop.sh` (detiene por puertos)
 
 ### Variables de entorno
 
